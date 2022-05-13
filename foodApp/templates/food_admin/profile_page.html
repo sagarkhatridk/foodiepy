@@ -1,0 +1,212 @@
+{% extends 'food_admin/base.html' %}
+{% load static %}
+
+{% block main_content %}
+    <!-- Body Content Wrapper -->
+    <div class="ms-content-wrapper">
+
+      <div class="ms-profile-overview">
+        <div class="ms-profile-cover">
+          
+<style>
+  .profile_upload_form {
+    position: relative;
+    text-align: center;
+  }
+
+
+  .upload_label {
+
+    background-color: rgb(245, 39, 39);
+    position: absolute;
+    margin-right: 3px;
+    bottom: -39px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    right: 0%;
+    color: aliceblue;
+    border-radius: 50%;
+    border: 1px solid black;
+    cursor: pointer;
+
+  }
+
+
+
+</style>
+          <form action="{% url 'profile_image_upload' %}" method="post" class="profile_upload_form" onchange="this.submit()" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="profile_image" id="profile_image" class="d-none" accept=".jpg, .png, .jpe, %}" >
+            <label for="profile_image" class="upload_label">
+              <i class="flaticon-pencil"></i>
+              <i class="flaticon-pencil"></i>
+            </label>
+            {% if profile_data.ProfileImage %}
+             <img  class="ms-profile-img" src="{{profile_data.ProfileImage.url}}" alt="">
+            {% else %}
+             <img  class="ms-profile-img" src="/uploads/images/user.png" alt="">
+            {% endif %}
+
+            <!-- <img class="ms-profile-img" src="{% if profile_data.ProfileImage %}{{profile_data.ProfileImage.url}} {% else %} {% static 'assets/img/costic/customer-5.jpg' %} {% endif %}" alt="people"> -->
+          </form>
+
+
+
+         
+          
+          <div class="ms-profile-user-info">
+            <h4 class="ms-profile-username text-white" style="text-transform: capitalize;">{{profile_data.FullName}}</h4>
+            <h2 class="ms-profile-role">Professional Cheff</h2>
+          </div>
+          <div class="ms-profile-user-buttons">
+            <a href="#" class="btn btn-primary"> <i class="material-icons">person_add</i> Follow</a>
+            <a href="#" class="btn btn-light"> <i class="material-icons">file_download</i> Download Resume</a>
+          </div>
+        </div>
+        <ul class="ms-profile-navigation nav nav-tabs tabs-bordered" role="tablist">
+          <li role="presentation"><a href="#tab1" aria-controls="tab1" class="active show" role="tab" data-toggle="tab"> Account </a></li>
+          <li role="presentation"><a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab"> Food Items </a></li>
+          <li role="presentation"><a href="#tab3" aria-controls="tab3" role="tab" data-toggle="tab"> Favourite </a></li>
+        </ul>
+        
+      </div>
+
+      <div class="row">
+
+        <div class="col-xl-7 col-md-12">
+          <div class="ms-panel ms-panel-fh">
+            <div class="tab-content">
+              <div class="tab-pane" id="tab1">
+                <form method="post" action="{% url 'profile_update' %}" class="ms-panel-body needs-validation" novalidate>
+                  {% csrf_token %}
+                  <h2 class="section-title">Profile</h2>
+                  <p>{{profile_data.Master.Email}}</p>
+                  <div class="form-row">
+                    <div class="col-md-5">
+                      <div class="form-group">
+                        <label for="validationCustom01">Full name</label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" id="validationCustom01" placeholder="Full name" name="full_name" value="{{profile_data.FullName}}" required>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="validationCustom01">DOB</label>
+                        <div class="input-group">
+                          <input type="date" class="form-control" id="validationCustom01" placeholder="" name="dob" value="{{profile_data.DOB}}" required>
+                          <div class="valid-feedback">Looks good!</div>
+                          <div class="invalid-feedback">Please provide a valid DOB.</div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="validationCustom01">Gender</label>
+                        <div class="input-group m-0">
+                          <ul class="ms-list d-flex">
+                            
+                            <li class="ms-list-item pl-0">
+                              <label class="ms-checkbox-wrap">
+                                <input type="radio" class="form-control" name="gender" value="m" {% if profile_data.Gender == 'm' %} checked {% endif %}> <i class="ms-checkbox-check"></i>
+                              </label> <span> male </span>
+                            </li>
+                            <li class="ms-list-item">
+                              <label class="ms-checkbox-wrap">
+                                <input type="radio" class="form-control" name="gender" value="f" {% if profile_data.Gender == 'f' %} checked {% endif %}> <i class="ms-checkbox-check"></i>
+                              </label> <span> female </span>
+                            </li>
+                          </ul>
+                          <div class="valid-feedback">Looks good!</div>
+                        </div>
+                      </div>
+                    </div>
+    
+                    <div class="col-md-7">
+                      <div class="form-row">
+                        
+                        
+                          <div class="col-md-4">
+                            <label for="validationCustom03">City</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" id="validationCustom03" placeholder="City" name="city" value="{{profile_data.City}}" required>
+                              <div class="invalid-feedback">Please provide a valid city.</div>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <label for="validationCustom04">State</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" id="validationCustom04" placeholder="State" name="state" value="{{profile_data.State}}" required>
+                              <div class="invalid-feedback">Please provide a valid state.</div>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <label for="validationCustom05">Pincode</label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" id="validationCustom05" name="pincode" placeholder="Pincode" value="{{profile_data.Pincode}}" required>
+                              <div class="invalid-feedback">Please provide a valid zip.</div>
+                            </div>
+                          </div>
+                        
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleTextarea">Address</label>
+                        <textarea class="form-control" id="exampleTextarea" name="address" rows="5" required>{{profile_data.Address}}</textarea>
+                        <div class="invalid-feedback">Please provide a valid address.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <button class="btn btn-primary m-auto" type="submit">Submit form</button>
+                  </div>
+    
+                </form>
+              </div>
+              <div class="tab-pane" id="tab2">
+                <h3><b>Food Items</b></h3>
+
+                {% for food in food_items %}
+
+                <p>{{food}}</p>
+
+                {% endfor %}
+              </div>
+              <div class="tab-pane" id="tab3">
+                Favourite Items
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      </div>
+
+
+
+
+     
+
+     
+
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
